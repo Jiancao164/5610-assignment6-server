@@ -1,13 +1,15 @@
 package com.example.wbdvonlinesp20serverjava.services;
 
+import com.example.wbdvonlinesp20serverjava.models.Topic;
 import com.example.wbdvonlinesp20serverjava.models.Widget;
+import com.example.wbdvonlinesp20serverjava.models.Widget;
+import com.example.wbdvonlinesp20serverjava.repositories.TopicRepository;
+import com.example.wbdvonlinesp20serverjava.repositories.WidgetRepository;
 import com.example.wbdvonlinesp20serverjava.repositories.WidgetRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 public class WidgetService {
@@ -16,37 +18,39 @@ public class WidgetService {
     WidgetRepository widgetRepository;
 
     @Autowired
-    TopicService topicService;
+    TopicRepository topicRepository;
 
-    public int deleteWidget(Integer widgetId) {
-        widgetRepository.deleteById(widgetId);
+    public List<Widget> findAllWidgets(int tid) {
+        return widgetRepository.findAllWidgets(tid);
+    }
+
+    public Widget findWidgetById(int tid) {
+        return widgetRepository.findWidgetById(tid);
+    }
+
+    public int deleteWidget(int tid) {
+        widgetRepository.deleteById(tid);
         return 1;
     }
 
-    public Widget createWidget(Widget newWidget) {
+    public int updateWidget(int tid, Widget newWidget) {
+        Widget oldWidget = widgetRepository.findWidgetById(tid);
+        oldWidget.setTitle(newWidget.getTitle());
+        oldWidget.setText(newWidget.getText());
+        oldWidget.setDisplay(newWidget.getDisplay());
+        oldWidget.setSize(newWidget.getSize());
+        oldWidget.setPosition(newWidget.getPosition());
+        oldWidget.setType(newWidget.getType());
+        oldWidget.setSrc(newWidget.getSrc());
+
+        widgetRepository.save(oldWidget);
+        return 1;
+    }
+
+    public Widget createWidget(int tid, Widget newWidget) {
+        Topic topic = topicRepository.findTopicById(tid);
+        newWidget.setTopic(topic);
         return widgetRepository.save(newWidget);
     }
 
-    public int updateWidget(int widgetId, Widget updatedWidget) {
-        Widget oldWidget = widgetRepository.findWidgetById(widgetId);
-        oldWidget.setType(updatedWidget.getType());
-        oldWidget.setText(updatedWidget.getText());
-        oldWidget.setTitle(updatedWidget.getTitle());
-        oldWidget.setSize(updatedWidget.getSize());
-        widgetRepository.save(oldWidget);
-        return 2;
-    }
-
-    public List<Widget> findAllWidgets() {
-        return widgetRepository.findAllWidgets();
-    }
-
-    public List<Widget> findWidgetsForTopic(int topicId) {
-        return widgetRepository.findWidgetsForTopic(topicId);
-    }
-
-    public Widget findWidgetById(int wid) {
-        return widgetRepository.findWidgetById(wid);
-//        return widgetRepository.findById(wid).get();
-    }
 }

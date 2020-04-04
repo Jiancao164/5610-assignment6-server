@@ -6,36 +6,41 @@ import javax.persistence.*;
 import java.util.List;
 
 @Entity
-@Table(name = "topic")
-public class Topic {
+@Table(name = "lesson")
+public class Lesson {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private String title;
 
 
+
+
     @ManyToOne
     @JsonIgnore
-    private Lesson lesson;
+    private Module module;
 
-    @OneToMany(mappedBy = "topic", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Widget> widgets;
 
-    public List<Widget> getWidgets() {
-        return widgets;
+    @OneToMany(mappedBy = "lesson", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Topic> topics;
+
+    public Module getModule() {
+        return module;
     }
 
-    public void setWidgets(List<Widget> widgets) {
-        this.widgets = widgets;
+    public void setModule(Module module) {
+        this.module = module;
     }
 
-    public Lesson getLesson() {
-        return lesson;
+    public List<Topic> getTopics() {
+        return topics;
     }
 
-    public void setLesson(Lesson lesson) {
-        this.lesson = lesson;
+    public void setTopics(List<Topic> topics) {
+        this.topics = topics;
     }
+
+
 
     public Integer getId() {
         return id;

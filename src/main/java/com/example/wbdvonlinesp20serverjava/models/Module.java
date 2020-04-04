@@ -6,8 +6,8 @@ import javax.persistence.*;
 import java.util.List;
 
 @Entity
-@Table(name = "topic")
-public class Topic {
+@Table(name = "module")
+public class Module {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
@@ -16,25 +16,25 @@ public class Topic {
 
     @ManyToOne
     @JsonIgnore
-    private Lesson lesson;
+    private Course course;
 
-    @OneToMany(mappedBy = "topic", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Widget> widgets;
+    @OneToMany(mappedBy = "module", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Lesson> lessons;
 
-    public List<Widget> getWidgets() {
-        return widgets;
+    public List<Lesson> getLessons() {
+        return lessons;
     }
 
-    public void setWidgets(List<Widget> widgets) {
-        this.widgets = widgets;
+    public void setLessons(List<Lesson> lessons) {
+        this.lessons = lessons;
     }
 
-    public Lesson getLesson() {
-        return lesson;
+    public Course getCourse() {
+        return course;
     }
 
-    public void setLesson(Lesson lesson) {
-        this.lesson = lesson;
+    public void setCourse(Course course) {
+        this.course = course;
     }
 
     public Integer getId() {

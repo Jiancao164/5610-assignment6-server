@@ -16,20 +16,36 @@ public class Widget {
     private int height = 1;
     private String cssClass;
     private String style;
+    private String display;
 
     private String value;
     private String title;
     private String type = "HEADING";
     private String text = "New Widget";
-    private int size = 2;
+    private int size = 1;
+    private int position = -1;
     @ManyToOne
     @JsonIgnore
     private Topic topic;
 
+    public String getDisplay() {
+        return display;
+    }
 
+    public void setDisplay(String display) {
+        this.display = display;
+    }
 
     public String getName() {
         return name;
+    }
+
+    public int getPosition() {
+        return position;
+    }
+
+    public void setPosition(int position) {
+        this.position = position;
     }
 
     public void setName(String name) {
